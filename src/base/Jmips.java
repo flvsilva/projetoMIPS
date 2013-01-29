@@ -1,41 +1,55 @@
 package base;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class Jmips
 {
-	private ArrayList<Integer> registradores;
-	private byte[] memoria;
-	
-	private void inicializaRegistradores () 
+	public static void main(String argv[]) throws IOException  
 	{
-		registradores.add(0, 0); // $zero
-	}
-	
-	private void inicializaMemoria()
-	{
-		memoria[0] = '0';
-	}
-	
-	//recebe os dados de uma instrução e poe nos registradores
-	private void preencheRegistradores ()
-	{
+		ArrayList<Integer> registradores = new ArrayList<Integer>();
+		byte[] memoria = new byte[1000];
+		String aux_instrucao;
+		
+		File arquivoFonteBruto = new File(argv[0]);  
+		
+		aux_instrucao = ifInstrucao(arquivoFonteBruto);
+		idInstrucao(aux_instrucao);
+		exInstrucao();
+		memInstrucao();
+		wbInstrucao();
+		
+		
 		
 	}
 	
-	public void main(String argv[]) throws IOException 
+	private static String ifInstrucao(File arquivoFonteBruto) throws IOException 
 	{
-		inicializaRegistradores();
-		inicializaMemoria();
-		File arquivoFonteBruto = new File(argv[0]);  
-		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto);  
-
-		for (int i = 0 ; i < arquivoFonte.available() ; i++)
-		{
-			memoria[i] = (byte) arquivoFonte.read();
-			System.out.println(memoria[i] + "\n\n");
-		}
+		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto); 
+		InputStreamReader isr = new InputStreamReader(arquivoFonte);
+		BufferedReader br = new BufferedReader(isr);
+		return br.readLine();
+		
+	}
+	private static void idInstrucao(String instrucao) {
+		
+	}
+	
+	private static void exInstrucao() {
+		
+	}
+	
+	private static void memInstrucao() {
+		
+	}
+			
+	private static void wbInstrucao() {
+		
 	}
 }
