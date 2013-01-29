@@ -1,6 +1,8 @@
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Jmips
@@ -24,14 +26,17 @@ public class Jmips
 		
 	}
 	
-	public void main(String argv[]) throws FileNotFoundException 
+	public void main(String argv[]) throws IOException 
 	{
 		inicializaRegistradores();
 		inicializaMemoria();
 		File arquivoFonteBruto = new File(argv[0]);  
 		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto);  
 
-		
-		
+		for (int i = 0 ; i < arquivoFonte.available() ; i++)
+		{
+			memoria[i] = (byte) arquivoFonte.read();
+			System.out.println(memoria[i] + "\n\n");
+		}
 	}
 }
