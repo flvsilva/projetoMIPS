@@ -18,23 +18,25 @@ public class Jmips
 		String aux_instrucao;
 		
 		File arquivoFonteBruto = new File(argv[0]);  
+		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto); 
+		InputStreamReader isr = new InputStreamReader(arquivoFonte);
+		BufferedReader br = new BufferedReader(isr);
 		
-		aux_instrucao = ifInstrucao(arquivoFonteBruto);
-		idInstrucao(aux_instrucao);
-		exInstrucao();
-		memInstrucao();
-		wbInstrucao();
 		
+		while ((aux_instrucao = br.readLine()) != null) 
+		{
+			Instrucao i = new Instrucao(aux_instrucao);
+		}		
 		
 		
 	}
 	
-	private static String ifInstrucao(File arquivoFonteBruto) throws IOException 
+	private static String ifInstrucao(BufferedReader br) throws IOException 
 	{
-		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto); 
-		InputStreamReader isr = new InputStreamReader(arquivoFonte);
-		BufferedReader br = new BufferedReader(isr);
-		return br.readLine();
+		
+		String instrucao = br.readLine();
+		
+		return instrucao;
 		
 	}
 	private static void idInstrucao(String instrucao) {
