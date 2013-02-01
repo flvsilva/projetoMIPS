@@ -12,7 +12,7 @@ public class Jmips
 {
 	public static final String NOP = "00000000000000000000000000000000";
 
-	public static Instrucao nop = new Instrucao(NOP);
+	public static Instrucao nop = new Instrucao(NOP, true);
 	
 	private static Instrucao ins1 = null;
 	private static Instrucao ins2 = null;
@@ -42,10 +42,11 @@ public class Jmips
 		for (int l = 0; l <= qtdLinha; l++)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
-			memInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
-			exInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
-			idInstrucao(ControladorInstrucoes.seletorInstrucao("IF"));
+			memInstrucao(ControladorInstrucoes.seletorInstrucao("MEM"));
+			exInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
+			idInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
 			ifInstrucao(br);
+			System.out.println("\n\n------> Fim do ciclo: "+l);
 		}
 		
 	}
@@ -57,6 +58,7 @@ public class Jmips
 		String aux_instrucao;
 		while ((aux_instrucao = br.readLine()) != null) 
 		{
+			System.out.println("IF: ->" + aux_instrucao);
 			if (ins1 == null) 
 			{
 				ins1 = new Instrucao(aux_instrucao); //busca
@@ -87,11 +89,12 @@ public class Jmips
 	}
 	private static void idInstrucao(Instrucao ins)
 	{
-			ins.MontaASM();
+		ins.MontaASM();
 	}
 	
-	private static void exInstrucao(Instrucao ins) {
-		
+	private static void exInstrucao(Instrucao ins) 
+	{
+		System.out.println("EX: ->"+ins.getComandoASM());
 	}
 	
 	private static void memInstrucao(Instrucao ins) {

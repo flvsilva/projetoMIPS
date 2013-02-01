@@ -1,57 +1,72 @@
 package base;
 
 public class Instrucao {
-
+	private boolean inicio = false;
+	
 	private String binario;
 	private String comandoASM;
 	private String estagio;
-
+	
+	
+	private int funct;
+	private int shamt;
+	private int rs;
+	private int rd;
+	private int	rt;
+	private int offset;
+	private int address;
+	
+	public Instrucao(String binario, boolean inicio) {this.binario = binario; comandoASM="NOP"; estagio="NOP";}
+	
 	public Instrucao(String binario) {
 		this.binario = binario;
-		estagio = "IF";
+		estagio = "ID";
 	}
 
 	public void MontaASM ()
 	{	
-		estagio = "ID";
 		String opCode = binario.substring(0, 6);
 		
-		System.out.println("ID: -> opCode: " + opCode);
 		
 		if (opCode.equals("000000")) 
 		{
-			if (binario.substring(26, 32).equals("100000"))
+			String functInstrucao = binario.substring(26, 32);
+			if (functInstrucao.equals("100000"))
 			{
 				System.out.println("eh um ADD");
 			}
-			else if (binario.substring(26, 32).equals("100100"))
+			else if (functInstrucao.equals("100100"))
 			{
 				System.out.println("eh um AND");
 			}
-			else if (binario.substring(26, 32).equals("001000"))
+			else if (functInstrucao.equals("001000"))
 			{
 				System.out.println("eh um JR");
 			}
-			else if (binario.substring(26, 32).equals("100101"))
+			else if (functInstrucao.equals("100101"))
 			{
 				System.out.println("eh um OR");
 			}
-			else if (binario.substring(26, 32).equals("000000"))
+			else if (functInstrucao.equals("000000"))
 			{
 				System.out.println("eh um SLL");
 			}
-			else if (binario.substring(26, 32).equals("000010"))
+			else if (functInstrucao.equals("000010"))
 			{
 				System.out.println("eh um SRL");
 			}
-			else if (binario.substring(26, 32).equals("100010")) 
+			else if (functInstrucao.equals("100010")) 
 			{
 				System.out.println("eh um SUB");
 			}
 		} else {
-			if (opCode.equals("001000")) {
-				System.out.println("eh um ADDI");
-				
+			if (opCode.equals("001000")) { // ADDI
+				rs = Integer.parseInt(binario.substring(6, 11), 2);
+				rt = Integer.parseInt(binario.substring(11, 16), 2);
+				offset = Integer.parseInt(binario.substring(16, 32), 2);
+				comandoASM = "ADDI R["+rs+"] = R["+rt+"] + "+offset;
+				System.out.println("ID: ->" + comandoASM);
+				estagio = "EX";
 			} else {
 				if (opCode.equals("000100")) {
 					System.out.println("eh um BEQ");
@@ -121,6 +136,68 @@ public class Instrucao {
 	
 	public void setEstagio(String estagio) {
 		this.estagio = estagio;
+	}
+
+	public int getRs() {
+		return rs;
+	}
+
+	public void setRs(int rs) {
+		this.rs = rs;
+	}
+
+	public int getRd() {
+		return rd;
+	}
+
+	public void setRd(int rd) {
+		this.rd = rd;
+	}
+
+	public int getRt() {
+		return rt;
+	}
+
+	public void setRt(int rt) {
+		this.rt = rt;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int address) {
+		this.address = address;
+	}
+
+	public int getFunct() {
+		return funct;
+	}
+
+	public void setFunct(int funct) {
+		this.funct = funct;
+	}
+
+	public int getShamt() {
+		return shamt;
+	}
+
+	public void setShamt(int shamt) {
+		this.shamt = shamt;
+	}
+	public boolean isInicio() {
+		return inicio;
+	}
+	public void setInicio(boolean inicio) {
+		this.inicio = inicio;
 	}
 	
 }
