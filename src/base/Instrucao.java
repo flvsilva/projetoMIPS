@@ -15,11 +15,11 @@ public class Instrucao {
 	{	
 		estagio = "ID";
 		String opCode = binario.substring(0, 6);
-		System.out.println("opCode: " + opCode);
+		
+		System.out.println("ID: -> opCode: " + opCode);
 		
 		if (opCode.equals("000000")) 
 		{
-			System.out.println("Tipo R");
 			if (binario.substring(26, 32).equals("100000"))
 			{
 				System.out.println("eh um ADD");
@@ -48,8 +48,57 @@ public class Instrucao {
 			{
 				System.out.println("eh um SUB");
 			}
+		} else {
+			if (opCode.equals("001000")) {
+				System.out.println("eh um ADDI");
+				
+			} else {
+				if (opCode.equals("000100")) {
+					System.out.println("eh um BEQ");
+				} else {
+					if (opCode.equals("BNE")) {
+						System.out.println("eh um BNE");
+					} else {
+						if (opCode.equals("000010")) {
+							System.out.println("eh um J");
+						} else {
+							if (opCode.equals("000011")) 
+							{
+								System.out.println("eh um JA");
+							} else {
+								if (opCode.equals("100011"))
+								{
+									System.out.println("eh um LW");
+								} else {
+									if (opCode.equals("101011"))
+									{
+										System.out.println("eh um SW");
+									}
+								}
+							}
+						}
+					}
+				}
+				
+			}
 		}
 	}
+	
+	public void execASM ()
+	{
+		
+	}
+	
+	public void memASM ()
+	{
+		
+	}
+	
+	public void wbASM ()
+	{
+		
+	}
+	
 	public String getBinario() {
 		return binario;
 	}
