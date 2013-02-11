@@ -33,7 +33,14 @@ public class Instrucao {
 			String functInstrucao = binario.substring(26, 32);
 			if (functInstrucao.equals("100000"))
 			{
-				System.out.println("eh um ADD");
+				rs = Integer.parseInt(binario.substring(6, 11), 2);
+				rt = Integer.parseInt(binario.substring(11, 16), 2);
+				rd = Integer.parseInt(binario.substring(16, 21), 2);
+				shamt = Integer.parseInt(binario.substring(21, 26), 2);
+				shamt = Integer.parseInt(binario.substring(26, 31), 2);
+				comandoASM = "ADD R["+rd+"] = R["+rs+"] + R["+rs+"]";
+				System.out.println("ID: ->" + comandoASM);
+				estagio = "EX";
 			}
 			else if (functInstrucao.equals("100100"))
 			{
