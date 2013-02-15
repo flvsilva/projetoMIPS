@@ -61,23 +61,23 @@ public class Jmips
 			System.out.println("IF: ->" + aux_instrucao);
 			if (ins1 == null) 
 			{
-				ins1 = new Instrucao(aux_instrucao); //busca
+				ins1 = new Instrucao(aux_instrucao);
 			} else {
 				if (ins2 == null) 
 				{
-					ins2 = new Instrucao(aux_instrucao); //busca
+					ins2 = new Instrucao(aux_instrucao);
 				} else {
 					if (ins3 == null) 
 					{
-						ins3 = new Instrucao(aux_instrucao); //busca
+						ins3 = new Instrucao(aux_instrucao);
 					} else {
 						if (ins4 == null) 
 						{
-							ins4 = new Instrucao(aux_instrucao); //busca
+							ins4 = new Instrucao(aux_instrucao);
 						} else {
 							if (ins5 == null) 
 							{
-								ins5 = new Instrucao(aux_instrucao); //busca
+								ins5 = new Instrucao(aux_instrucao);
 							}
 						}
 					}
@@ -95,14 +95,19 @@ public class Jmips
 	private static void exInstrucao(Instrucao ins) 
 	{
 		System.out.println("EX: ->"+ins.getComandoASM());
+		ins.execASM();
 	}
 	
-	private static void memInstrucao(Instrucao ins) {
-		
+	private static void memInstrucao(Instrucao ins) 
+	{
+		System.out.println("MEM: ->"+ins.getComandoASM());
+		ins.memASM();
 	}
 			
-	private static void wbInstrucao(Instrucao ins) {
-		
+	private static void wbInstrucao(Instrucao ins) 
+	{
+		System.out.println("WB: ->"+ins.getComandoASM());
+		ins.wbASM();
 	}
 
 
