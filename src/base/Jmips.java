@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Jmips
 {
+	private static final String dumpBin = "/home/felipe/git/flvsilva/projetoMIPS/src/base/exb.txt";
+
 	public static final String NOP = "00000000000000000000000000000000";
 
 	public static Instrucao nop = new Instrucao(NOP, true);
@@ -24,21 +28,25 @@ public class Jmips
 	public static void main(String argv[]) throws IOException  
 	{
 
-		
+		int qtdLinha =0;
 		ArrayList<Integer> registradores = new ArrayList<Integer>();
 		byte[] memoria = new byte[1000];
 		
 		File arquivoFonteBruto = new File(argv[0]);  
-		FileInputStream arquivoFonte = new FileInputStream(arquivoFonteBruto); 
+		
+		geraBin(new PrintStream(dumpBin), arquivoFonteBruto);
+		
+		FileInputStream arquivoFonte = new FileInputStream(dumpBin); 
 		InputStreamReader isr = new InputStreamReader(arquivoFonte);
 		BufferedReader br = new BufferedReader(isr);
 		
-		LineNumberReader linhaLeitura = new LineNumberReader(new FileReader(arquivoFonteBruto));  
-		linhaLeitura.skip(arquivoFonteBruto.length());  
-		int qtdLinha = linhaLeitura.getLineNumber();  
+		FileReader fr = new FileReader(dumpBin);
+		LineNumberReader linhaLeitura = new LineNumberReader(fr);  
+		linhaLeitura.skip(Long.MAX_VALUE);
+		qtdLinha = linhaLeitura.getLineNumber();  
 		linhaLeitura.close();
 		
-		System.out.println(qtdLinha);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>> " + qtdLinha);
 		for (int l = 0; l <= qtdLinha; l++)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
@@ -110,7 +118,49 @@ public class Jmips
 		ins.wbASM();
 	}
 
-
+	public static void geraBin(PrintStream out, File file) throws IOException {
+		
+		InputStream is = new FileInputStream(file);
+		
+		while (is.available() > 0) {
+			for (int j = 0; j < 16; j++) {
+				if (is.available() > 0)
+				{
+					StringBuilder auxBuilder = new StringBuilder();
+					for(int k=0; k<4 ; k++ )
+					{
+						int value = (int) is.read();
+						auxBuilder.append(String.format("%02X", value));
+					}
+					String aux1 = auxBuilder.substring(2, 4);
+					String aux2 = auxBuilder.substring(0, 2);
+					String aux3 = auxBuilder.substring(6, 8);
+					String aux4 = auxBuilder.substring(4, 6);
+					
+					StringBuilder sb1 = new StringBuilder();
+					
+					sb1.append(Integer.toBinaryString(Integer.parseInt(aux3.concat(aux4), 16)));
+					while (sb1.length()<16)
+					{
+						sb1.insert(0, "0");
+					}
+					String auxBin = Integer.toBinaryString(Integer.parseInt(aux1.concat(aux2), 16));
+					int b = (16 - auxBin.length());
+					String auxPreenchimento = "";
+					while (b > 0)
+					{
+						auxPreenchimento = auxPreenchimento.concat("0");
+						b = (16 - (auxPreenchimento.length() + auxBin.length()));
+					}
+					sb1.append(auxPreenchimento.concat(auxBin));
+					sb1.append(System.lineSeparator());
+					out.print(sb1);
+				}
+			}
+		}
+		is.close();
+		
+	}
 
 	public static Instrucao getIns1() {
 		return ins1;
@@ -128,13 +178,9 @@ public class Jmips
 		return ins2;
 	}
 
-
-
 	public static void setIns2(Instrucao ins2) {
 		Jmips.ins2 = ins2;
 	}
-
-
 
 	public static Instrucao getIns3() {
 		return ins3;
@@ -169,4 +215,5 @@ public class Jmips
 	public static void setIns5(Instrucao ins5) {
 		Jmips.ins5 = ins5;
 	}
+
 }
