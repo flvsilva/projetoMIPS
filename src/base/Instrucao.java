@@ -28,7 +28,10 @@ public class Instrucao {
 	public void MontaASM ()
 	{	
 		String opCode = binario.substring(0, 6);
-		
+		if (binario.equals(Jmips.NOP))
+		{
+			return; //NOP
+		}
 		if (opCode.equals("000000")) 
 		{
 			String functInstrucao = binario.substring(26, 32);
@@ -36,7 +39,7 @@ public class Instrucao {
 			{
 				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "ADD";
-				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] + R["+rs+"]");
+				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] + R["+rt+"]");
 				estagio = "EX";
 			}
 			else if (functInstrucao.equals("100100"))
@@ -63,7 +66,7 @@ public class Instrucao {
 			{
 				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "SUB";
-				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] - R["+rs+"]");
+				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] - R["+rt+"]");
 				estagio = "EX";
 			}
 		} else {
