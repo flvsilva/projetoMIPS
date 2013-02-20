@@ -18,7 +18,7 @@ public class Jmips
 
 	public static Instrucao nop = new Instrucao(NOP, true);
 	
-	public static int ciclo = 1;
+	public static int c = 1;
 	
 	public static ArrayList<Integer> registradores = new ArrayList<Integer>();
 	public static byte[] memoria = new byte[1000];
@@ -38,7 +38,7 @@ public class Jmips
 			registradores.add(0);
 		}
 		
-		int qtdLinha =0;
+		Float qtdLinha = new Float(0);
 		File arquivoFonteBruto = new File(argv[0]);  
 		
 		geraBin(new PrintStream(dumpBin), arquivoFonteBruto);
@@ -50,19 +50,20 @@ public class Jmips
 		FileReader fr = new FileReader(dumpBin);
 		LineNumberReader linhaLeitura = new LineNumberReader(fr);  
 		linhaLeitura.skip(Long.MAX_VALUE);
-		qtdLinha = linhaLeitura.getLineNumber();  
+		qtdLinha = (float) linhaLeitura.getLineNumber();  
 		linhaLeitura.close();
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>> " + qtdLinha);
-		while (ciclo < qtdLinha*2)
+		System.out.println("-- " + qtdLinha + " linhas de código.");
+		
+		for (;c<qtdLinha*2; c++)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
 			memInstrucao(ControladorInstrucoes.seletorInstrucao("MEM"));
 			exInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
 			idInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
 			ifInstrucao(br);
-			System.out.println("\n\n------> Fim do ciclo: "+ciclo);
-			ciclo++;
+			System.out.println("\n\n------> Fim do ciclo: "+c);
+			
 		}
 		
 	}
@@ -72,8 +73,11 @@ public class Jmips
 	private static void ifInstrucao(BufferedReader br) throws IOException 
 	{
 		String aux_instrucao;
-		while ((aux_instrucao = br.readLine()) != null) 
+		br.mark(1);
+		while (br.readLine() != null) 
 		{
+			br.reset();
+			aux_instrucao = br.readLine();
 			System.out.println("IF: ->" + aux_instrucao);
 			if (ins1 == null || ins1.getEstagio().equals("FIM")) 
 			{
