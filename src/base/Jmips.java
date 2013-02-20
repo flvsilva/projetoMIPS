@@ -45,6 +45,7 @@ public class Jmips
 		linhaLeitura.skip(Long.MAX_VALUE);
 		qtdLinha = linhaLeitura.getLineNumber();  
 		linhaLeitura.close();
+		qtdLinha = qtdLinha*5;
 		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>> " + qtdLinha);
 		for (int l = 0; l <= qtdLinha; l++)

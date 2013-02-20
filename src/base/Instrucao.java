@@ -30,6 +30,7 @@ public class Instrucao {
 		String opCode = binario.substring(0, 6);
 		if (binario.equals(Jmips.NOP))
 		{
+			comandoASM = "NOP";
 			return; //NOP
 		}
 		if (opCode.equals("000000")) 
@@ -39,35 +40,31 @@ public class Instrucao {
 			{
 				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "ADD";
-				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] + R["+rt+"]");
-				estagio = "EX";
 			}
 			else if (functInstrucao.equals("100100"))
 			{
-				System.out.println("eh um AND");
+				comandoASM = "AND";
 			}
 			else if (functInstrucao.equals("001000"))
 			{
-				System.out.println("eh um JR");
+				comandoASM = "JR";
 			}
 			else if (functInstrucao.equals("100101"))
 			{
-				System.out.println("eh um OR");
+				comandoASM = "OR";
 			}
 			else if (functInstrucao.equals("000000"))
 			{
-				System.out.println("eh um SLL");
+				comandoASM = "SLL";
 			}
 			else if (functInstrucao.equals("000010"))
 			{
-				System.out.println("eh um SRL");
+				comandoASM = "SRL";
 			}
 			else if (functInstrucao.equals("100010")) 
 			{
 				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "SUB";
-				System.out.println("ID: ->" + comandoASM + " R["+rd+"] = R["+rs+"] - R["+rt+"]");
-				estagio = "EX";
 			}
 		} else {
 			if (opCode.equals("001000")) { // ADDI
@@ -75,11 +72,10 @@ public class Instrucao {
 				rt = Integer.parseInt(binario.substring(11, 16), 2);
 				offset = Integer.parseInt(binario.substring(16, 32), 2);
 				comandoASM = "ADDI";
-				System.out.println("ID: ->" + comandoASM + " R["+rs+"] = R["+rt+"] + "+offset);
-				estagio = "EX";
+			
 			} else {
 				if (opCode.equals("000100")) {
-					System.out.println("eh um BEQ");
+					comandoASM = "BEQ";
 				} else {
 					if (opCode.equals("BNE")) {
 						System.out.println("eh um BNE");
@@ -87,20 +83,18 @@ public class Instrucao {
 						if (opCode.equals("000010")) {
 							address = Integer.parseInt(binario.substring(6, 32), 2);
 							comandoASM = "J";
-							System.out.println("ID: ->" + comandoASM + " 0x"+Integer.parseInt(binario.substring(6, 32), 16));
-							estagio = "EX";
 						} else {
 							if (opCode.equals("000011")) 
 							{
-								System.out.println("eh um JA");
+								comandoASM = "JA";
 							} else {
 								if (opCode.equals("100011"))
 								{
-									System.out.println("eh um LW");
+									comandoASM = "LW";
 								} else {
 									if (opCode.equals("101011"))
 									{
-										System.out.println("eh um SW");
+										comandoASM = "SW";
 									}
 								}
 							}
@@ -110,6 +104,8 @@ public class Instrucao {
 				
 			}
 		}
+		System.out.println("ID: ->" + comandoASM);
+		estagio = "EX";
 	}
 
 	private void preparaInstrucaoTipoR(String functInstrucao) {
@@ -125,55 +121,42 @@ public class Instrucao {
 		if (comandoASM.equals("ADD"))
 		{
 			rd = rs+rt;
-			
 		} else {
 			if (comandoASM.equals("AND"))
 			{
-				rd = rs+rt;
 			} else {
 				if (comandoASM.equals("JR"))
 				{
-					rd = rs+rt;
 				} else {
 					if (comandoASM.equals("OR"))
 					{
-						rd = rs+rt;
 					} else {
 						if (comandoASM.equals("SLL"))
 						{
-							rd = rs+rt;
 						} else {
 							if (comandoASM.equals("SRL"))
 							{
-								rd = rs+rt;
 							} else {
 								if (comandoASM.equals("SUB"))
 								{
-									rd = rs+rt;
 								} else {
 									if (comandoASM.equals("ADDI"))
 									{
-										rd = rs+rt;
 									} else {
 										if (comandoASM.equals("BEQ"))
 										{
-											rd = rs+rt;
 										} else {
 											if (comandoASM.equals("BNE"))
 											{
-												rd = rs+rt;
 											} else {
 												if (comandoASM.equals("JA"))
 												{
-													rd = rs+rt;
 												} else {
 													if (comandoASM.equals("LW"))
 													{
-														rd = rs+rt;
 													} else {
 														if (comandoASM.equals("SW"))
 														{
-															rd = rs+rt;
 														}	
 													}
 												}
@@ -187,11 +170,12 @@ public class Instrucao {
 				}
 			}
 		}
+		estagio = "MEM";
 	}
 	
 	public void memASM ()
 	{
-		
+		estagio = "WB";
 	}
 	
 	public void wbASM ()
@@ -200,6 +184,7 @@ public class Instrucao {
 		{
 			
 		}
+		estagio = "";
 	}
 	
 	public String getBinario() {
