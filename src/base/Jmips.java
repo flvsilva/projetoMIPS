@@ -18,6 +18,12 @@ public class Jmips
 
 	public static Instrucao nop = new Instrucao(NOP, true);
 	
+	public static int ciclo = 1;
+	
+	public static ArrayList<Integer> registradores = new ArrayList<Integer>();
+	public static byte[] memoria = new byte[1000];
+	
+	
 	private static Instrucao ins1 = null;
 	private static Instrucao ins2 = null;
 	private static Instrucao ins3 = null;
@@ -27,11 +33,12 @@ public class Jmips
 	
 	public static void main(String argv[]) throws IOException  
 	{
-
-		int qtdLinha =0;
-		ArrayList<Integer> registradores = new ArrayList<Integer>();
-		byte[] memoria = new byte[1000];
+		for (int l = 0; l<32; l++)
+		{
+			registradores.add(0);
+		}
 		
+		int qtdLinha =0;
 		File arquivoFonteBruto = new File(argv[0]);  
 		
 		geraBin(new PrintStream(dumpBin), arquivoFonteBruto);
@@ -45,17 +52,17 @@ public class Jmips
 		linhaLeitura.skip(Long.MAX_VALUE);
 		qtdLinha = linhaLeitura.getLineNumber();  
 		linhaLeitura.close();
-		qtdLinha = qtdLinha*5;
 		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>> " + qtdLinha);
-		for (int l = 0; l <= qtdLinha; l++)
+		while (ciclo < qtdLinha*2)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
 			memInstrucao(ControladorInstrucoes.seletorInstrucao("MEM"));
 			exInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
 			idInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
 			ifInstrucao(br);
-			System.out.println("\n\n------> Fim do ciclo: "+l);
+			System.out.println("\n\n------> Fim do ciclo: "+ciclo);
+			ciclo++;
 		}
 		
 	}
@@ -68,23 +75,23 @@ public class Jmips
 		while ((aux_instrucao = br.readLine()) != null) 
 		{
 			System.out.println("IF: ->" + aux_instrucao);
-			if (ins1 == null) 
+			if (ins1 == null || ins1.getEstagio().equals("FIM")) 
 			{
 				ins1 = new Instrucao(aux_instrucao);
 			} else {
-				if (ins2 == null) 
+				if (ins2 == null || ins2.getEstagio().equals("FIM")) 
 				{
 					ins2 = new Instrucao(aux_instrucao);
 				} else {
-					if (ins3 == null) 
+					if (ins3 == null || ins3.getEstagio().equals("FIM")) 
 					{
 						ins3 = new Instrucao(aux_instrucao);
 					} else {
-						if (ins4 == null) 
+						if (ins4 == null || ins4.getEstagio().equals("FIM")) 
 						{
 							ins4 = new Instrucao(aux_instrucao);
 						} else {
-							if (ins5 == null) 
+							if (ins5 == null || ins5.getEstagio().equals("FIM")) 
 							{
 								ins5 = new Instrucao(aux_instrucao);
 							}
@@ -187,34 +194,25 @@ public class Jmips
 		return ins3;
 	}
 
-
-
 	public static void setIns3(Instrucao ins3) {
 		Jmips.ins3 = ins3;
 	}
-
-
 
 	public static Instrucao getIns4() {
 		return ins4;
 	}
 
-
-
 	public static void setIns4(Instrucao ins4) {
 		Jmips.ins4 = ins4;
 	}
-
-
 
 	public static Instrucao getIns5() {
 		return ins5;
 	}
 
-
-
 	public static void setIns5(Instrucao ins5) {
 		Jmips.ins5 = ins5;
 	}
+	
 
 }

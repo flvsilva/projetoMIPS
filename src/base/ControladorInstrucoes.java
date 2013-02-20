@@ -1,6 +1,8 @@
 package base;
 
 public class ControladorInstrucoes {
+	
+	public static boolean instrucoesNoPipe = true;
 
 	public static Instrucao seletorInstrucao (String faseSelecionada) 
 	{

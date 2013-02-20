@@ -27,12 +27,12 @@ public class Instrucao {
 
 	public void MontaASM ()
 	{	
-		String opCode = binario.substring(0, 6);
 		if (binario.equals(Jmips.NOP))
 		{
 			comandoASM = "NOP";
 			return; //NOP
 		}
+		String opCode = binario.substring(0, 6);
 		if (opCode.equals("000000")) 
 		{
 			String functInstrucao = binario.substring(26, 32);
@@ -77,8 +77,8 @@ public class Instrucao {
 				if (opCode.equals("000100")) {
 					comandoASM = "BEQ";
 				} else {
-					if (opCode.equals("BNE")) {
-						System.out.println("eh um BNE");
+					if (opCode.equals("000101")) {
+						comandoASM = "BNE";
 					} else {
 						if (opCode.equals("000010")) {
 							address = Integer.parseInt(binario.substring(6, 32), 2);
@@ -118,58 +118,7 @@ public class Instrucao {
 	
 	public void execASM ()
 	{
-		if (comandoASM.equals("ADD"))
-		{
-			rd = rs+rt;
-		} else {
-			if (comandoASM.equals("AND"))
-			{
-			} else {
-				if (comandoASM.equals("JR"))
-				{
-				} else {
-					if (comandoASM.equals("OR"))
-					{
-					} else {
-						if (comandoASM.equals("SLL"))
-						{
-						} else {
-							if (comandoASM.equals("SRL"))
-							{
-							} else {
-								if (comandoASM.equals("SUB"))
-								{
-								} else {
-									if (comandoASM.equals("ADDI"))
-									{
-									} else {
-										if (comandoASM.equals("BEQ"))
-										{
-										} else {
-											if (comandoASM.equals("BNE"))
-											{
-											} else {
-												if (comandoASM.equals("JA"))
-												{
-												} else {
-													if (comandoASM.equals("LW"))
-													{
-													} else {
-														if (comandoASM.equals("SW"))
-														{
-														}	
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		
 		estagio = "MEM";
 	}
 	
@@ -184,7 +133,7 @@ public class Instrucao {
 		{
 			
 		}
-		estagio = "";
+		estagio = "FIM";
 	}
 	
 	public String getBinario() {
