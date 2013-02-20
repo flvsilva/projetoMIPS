@@ -7,7 +7,6 @@ public class Instrucao {
 	private String comandoASM;
 	private String estagio;
 	
-	
 	private int funct;
 	private int shamt;
 	private int rs;
@@ -15,8 +14,6 @@ public class Instrucao {
 	private int	rt;
 	private int offset;
 	private int address;
-	
-	
 	
 	public Instrucao(String binario, boolean inicio) {this.binario = binario; comandoASM="NOP"; estagio="NOP";}
 	
@@ -43,22 +40,27 @@ public class Instrucao {
 			}
 			else if (functInstrucao.equals("100100"))
 			{
+				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "AND";
 			}
 			else if (functInstrucao.equals("001000"))
 			{
+				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "JR";
 			}
 			else if (functInstrucao.equals("100101"))
 			{
+				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "OR";
 			}
 			else if (functInstrucao.equals("000000"))
 			{
+				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "SLL";
 			}
 			else if (functInstrucao.equals("000010"))
 			{
+				preparaInstrucaoTipoR(functInstrucao);
 				comandoASM = "SRL";
 			}
 			else if (functInstrucao.equals("100010")) 
@@ -68,32 +70,34 @@ public class Instrucao {
 			}
 		} else {
 			if (opCode.equals("001000")) { // ADDI
-				rs = Integer.parseInt(binario.substring(6, 11), 2);
-				rt = Integer.parseInt(binario.substring(11, 16), 2);
-				offset = Integer.parseInt(binario.substring(16, 32), 2);
+				preparaInstrucaoTipoI();
 				comandoASM = "ADDI";
-			
 			} else {
 				if (opCode.equals("000100")) {
+					preparaInstrucaoTipoI();
 					comandoASM = "BEQ";
 				} else {
 					if (opCode.equals("000101")) {
+						preparaInstrucaoTipoI();
 						comandoASM = "BNE";
 					} else {
 						if (opCode.equals("000010")) {
-							address = Integer.parseInt(binario.substring(6, 32), 2);
+							preparaInstrucaoTipoJ();
 							comandoASM = "J";
 						} else {
 							if (opCode.equals("000011")) 
 							{
+								preparaInstrucaoTipoJ();
 								comandoASM = "JA";
 							} else {
 								if (opCode.equals("100011"))
 								{
+									preparaInstrucaoTipoI();
 									comandoASM = "LW";
 								} else {
 									if (opCode.equals("101011"))
 									{
+										preparaInstrucaoTipoI();
 										comandoASM = "SW";
 									}
 								}
@@ -108,6 +112,16 @@ public class Instrucao {
 		estagio = "EX";
 	}
 
+	private void preparaInstrucaoTipoJ() {
+		address = Integer.parseInt(binario.substring(6, 32), 2);
+	}
+
+	private void preparaInstrucaoTipoI() {
+		rs = Integer.parseInt(binario.substring(6, 11), 2);
+		rt = Integer.parseInt(binario.substring(11, 16), 2);
+		offset = Integer.parseInt(binario.substring(16, 32), 2);
+	}
+
 	private void preparaInstrucaoTipoR(String functInstrucao) {
 		rs = Integer.parseInt(binario.substring(6, 11), 2);
 		rt = Integer.parseInt(binario.substring(11, 16), 2);
@@ -118,7 +132,64 @@ public class Instrucao {
 	
 	public void execASM ()
 	{
-		
+		if (comandoASM.equals("ADD"))
+		{
+			rs = Jmips.registradores.get(rs);
+			rt = Jmips.registradores.get(rt);
+			Jmips.registradores.set(rd, rs+rt);
+		} else {
+			if (comandoASM.equals("AND"))
+			{
+				rs = Jmips.registradores.get(rs);
+				rt = Jmips.registradores.get(rt);
+				Jmips.registradores.set(rd, rs&rt);
+			} else {
+				if (comandoASM.equals("JR"))
+				{
+					
+				} else {
+					if (comandoASM.equals("OR"))
+					{
+					} else {
+						if (comandoASM.equals("SLL"))
+						{
+						} else {
+							if (comandoASM.equals("SRL"))
+							{
+							} else {
+								if (comandoASM.equals("SUB"))
+								{
+								} else {
+									if (comandoASM.equals("ADDI"))
+									{
+									} else {
+										if (comandoASM.equals("BEQ"))
+										{
+										} else {
+											if (comandoASM.equals("BNE"))
+											{
+											} else {
+												if (comandoASM.equals("JA"))
+												{
+												} else {
+													if (comandoASM.equals("LW"))
+													{
+													} else {
+														if (comandoASM.equals("SW"))
+														{
+														}	
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		estagio = "MEM";
 	}
 	
