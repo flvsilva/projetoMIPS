@@ -146,34 +146,66 @@ public class Instrucao {
 			} else {
 				if (comandoASM.equals("JR"))
 				{
-					
+					rs = Jmips.registradores.get(rs);
+					address = rs;
 				} else {
 					if (comandoASM.equals("OR"))
 					{
+						rs = Jmips.registradores.get(rs);
+						rt = Jmips.registradores.get(rt);
+						Jmips.registradores.set(rd, rs|rt);
 					} else {
 						if (comandoASM.equals("SLL"))
 						{
+							rs = Jmips.registradores.get(rs);
+							rd = Jmips.registradores.get(rd);
+							Jmips.registradores.set(rd, rs<<shamt);
+							
 						} else {
 							if (comandoASM.equals("SRL"))
 							{
+								rs = Jmips.registradores.get(rs);
+								rd = Jmips.registradores.get(rd);
+								Jmips.registradores.set(rd, rs<<shamt);
 							} else {
 								if (comandoASM.equals("SUB"))
 								{
+									rs = Jmips.registradores.get(rs);
+									rt = Jmips.registradores.get(rt);
+									Jmips.registradores.set(rd, rs-rt);
 								} else {
 									if (comandoASM.equals("ADDI"))
 									{
+										rs = Jmips.registradores.get(rs);
+										rt = Jmips.registradores.get(rt);
+										Jmips.registradores.set(rt, rs+offset);
 									} else {
 										if (comandoASM.equals("BEQ"))
 										{
+											rs = Jmips.registradores.get(rs);
+											rt = Jmips.registradores.get(rt);
+											if (rs == rt) 
+											{
+												address = offset << 2;
+											}
 										} else {
 											if (comandoASM.equals("BNE"))
 											{
+												rs = Jmips.registradores.get(rs);
+												rt = Jmips.registradores.get(rt);
+												if (rs != rt) 
+												{
+													address = offset << 2;
+												}
 											} else {
 												if (comandoASM.equals("JA"))
 												{
+													Jmips.registradores.set(31, Jmips.pc);
+													address = offset << 2;
 												} else {
 													if (comandoASM.equals("LW"))
 													{
+														
 													} else {
 														if (comandoASM.equals("SW"))
 														{
