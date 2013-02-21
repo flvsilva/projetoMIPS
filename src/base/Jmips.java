@@ -36,7 +36,7 @@ public class Jmips
 	{
 		for (int l = 0; l<32; l++)
 		{
-			registradores.add(10);
+			registradores.add(0);
 		}
 		
 		Float qtdLinha = new Float(0);
@@ -63,8 +63,7 @@ public class Jmips
 		
 		System.out.println("-- " + qtdLinha + " linhas de código.");
 		
-//		for (;c<qtdLinha*10; c++)
-		while(true)
+		for (;; c++)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
 			memInstrucao(ControladorInstrucoes.seletorInstrucao("MEM"));
@@ -74,6 +73,7 @@ public class Jmips
 			imprimeRegistradores ();
 			imprimeMemoria(Integer.parseInt(argv[2]), Integer.parseInt(argv[3]));
 			System.out.println("\n\n------> Fim do ciclo: "+c);
+			System.in.read();
 		}
 	}
 

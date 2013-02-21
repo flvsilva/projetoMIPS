@@ -15,6 +15,8 @@ public class Instrucao {
 	private int offset;
 	private int address;
 	
+	private int lidoMemoria;
+	
 	public Instrucao(String binario, boolean inicio) {this.binario = binario; comandoASM="NOP"; estagio="NOP";}
 	
 	public Instrucao(String binario) {
@@ -178,7 +180,6 @@ public class Instrucao {
 									if (comandoASM.equals("ADDI"))
 									{
 										rs = Jmips.registradores.get(rs);
-										rt = Jmips.registradores.get(rt);
 										Jmips.registradores.set(rt, rs+offset);
 									} else {
 										if (comandoASM.equals("BEQ"))
@@ -209,11 +210,21 @@ public class Instrucao {
 												} else {
 													if (comandoASM.equals("LW"))
 													{
-														
+														rs = Jmips.registradores.get(rs);
+														address = rs + offset;
 													} else {
 														if (comandoASM.equals("SW"))
 														{
-														}	
+															rs = Jmips.registradores.get(rs);
+															address = rs + offset;
+														}
+														else {
+															if (comandoASM.equals("J"))
+															{
+																address= offset << 2;
+																Jmips.pc = address;
+															}
+														}
 													}
 												}
 											}
@@ -231,6 +242,18 @@ public class Instrucao {
 	
 	public void memASM ()
 	{
+		if (comandoASM.equals("LW"))
+		{
+			lidoMemoria = Jmips.memoria[address];
+
+			
+		} else {
+			if (comandoASM.equals("SW"))
+			{
+				Jmips.memoria[address] = (byte) rt;
+			}
+		}
+		
 		estagio = "WB";
 	}
 	
@@ -238,7 +261,7 @@ public class Instrucao {
 	{
 		if (comandoASM.equals("LW"))
 		{
-			
+			Jmips.registradores.set(rt, lidoMemoria);
 		}
 		estagio = "FIM";
 	}
