@@ -148,6 +148,7 @@ public class Instrucao {
 				{
 					rs = Jmips.registradores.get(rs);
 					address = rs;
+					Jmips.pc = address;
 				} else {
 					if (comandoASM.equals("OR"))
 					{
@@ -188,6 +189,7 @@ public class Instrucao {
 											{
 												address = offset << 2;
 											}
+											Jmips.pc = address;
 										} else {
 											if (comandoASM.equals("BNE"))
 											{
@@ -197,11 +199,13 @@ public class Instrucao {
 												{
 													address = offset << 2;
 												}
+												Jmips.pc = address;
 											} else {
 												if (comandoASM.equals("JA"))
 												{
 													Jmips.registradores.set(31, Jmips.pc);
 													address = offset << 2;
+													Jmips.pc = address;
 												} else {
 													if (comandoASM.equals("LW"))
 													{

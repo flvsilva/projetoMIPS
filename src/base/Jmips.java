@@ -26,13 +26,11 @@ public class Jmips
 	public static ArrayList<Integer> registradores = new ArrayList<Integer>();
 	public static byte[] memoria = new byte[1000];
 	
-	
 	private static Instrucao ins1 = null;
 	private static Instrucao ins2 = null;
 	private static Instrucao ins3 = null;
 	private static Instrucao ins4 = null;
 	private static Instrucao ins5 = null;
-	
 	
 	public static void main(String argv[]) throws IOException  
 	{
@@ -65,7 +63,8 @@ public class Jmips
 		
 		System.out.println("-- " + qtdLinha + " linhas de código.");
 		
-		for (;c<qtdLinha*2; c++)
+//		for (;c<qtdLinha*10; c++)
+		while(true)
 		{
 			wbInstrucao(ControladorInstrucoes.seletorInstrucao("WB"));
 			memInstrucao(ControladorInstrucoes.seletorInstrucao("MEM"));
@@ -75,11 +74,8 @@ public class Jmips
 			imprimeRegistradores ();
 			imprimeMemoria(Integer.parseInt(argv[2]), Integer.parseInt(argv[3]));
 			System.out.println("\n\n------> Fim do ciclo: "+c);
-			
 		}
-		
 	}
-		
 
 	private static void imprimeMemoria (int inicio, int fim)
 	{
@@ -186,7 +182,7 @@ public class Jmips
 					StringBuilder sb1 = new StringBuilder();
 					
 					sb1.append(Integer.toBinaryString(Integer.parseInt(aux3.concat(aux4), 16)));
-					while (sb1.length()<16)
+					while (sb1.length() < 16)
 					{
 						sb1.insert(0, "0");
 					}
@@ -205,20 +201,15 @@ public class Jmips
 			}
 		}
 		is.close();
-		
 	}
 
 	public static Instrucao getIns1() {
 		return ins1;
 	}
 
-
-
 	public static void setIns1(Instrucao ins1) {
 		Jmips.ins1 = ins1;
 	}
-
-
 
 	public static Instrucao getIns2() {
 		return ins2;
@@ -251,6 +242,4 @@ public class Jmips
 	public static void setIns5(Instrucao ins5) {
 		Jmips.ins5 = ins5;
 	}
-	
-
 }
