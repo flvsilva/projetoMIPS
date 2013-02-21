@@ -38,7 +38,7 @@ public class Jmips
 	{
 		for (int l = 0; l<32; l++)
 		{
-			registradores.add(0);
+			registradores.add(10);
 		}
 		
 		Float qtdLinha = new Float(0);
@@ -61,6 +61,7 @@ public class Jmips
 		linhaLeitura.skip(Long.MAX_VALUE);
 		qtdLinha = (float) linhaLeitura.getLineNumber();  
 		linhaLeitura.close();
+		br.close();
 		
 		System.out.println("-- " + qtdLinha + " linhas de código.");
 		
@@ -71,6 +72,8 @@ public class Jmips
 			exInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
 			idInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
 			ifInstrucao();
+			imprimeRegistradores ();
+			imprimeMemoria(Integer.parseInt(argv[2]), Integer.parseInt(argv[3]));
 			System.out.println("\n\n------> Fim do ciclo: "+c);
 			
 		}
@@ -78,6 +81,27 @@ public class Jmips
 	}
 		
 
+	private static void imprimeMemoria (int inicio, int fim)
+	{
+		System.out.println("-----------------------MEMORIA---------------------------------");
+		StringBuffer conteudoMemoria = new StringBuffer();
+		for (int m = inicio ; m < fim ; m++)
+		{
+			conteudoMemoria.append(memoria[m]);
+		}
+		System.out.println("<< M["+inicio+" - "+fim+"] = "+ conteudoMemoria.toString());
+		System.out.println("---------------------------------------------------------------");
+	}
+	
+	private static void imprimeRegistradores ()
+	{
+		System.out.println("*********************REGISTRADORES*****************************");
+		for (int a = 0 ; a < 32 ; a++)
+		{
+			System.out.println(">> R["+a+"] = "+ registradores.get(a));
+		}
+		System.out.println("***************************************************************");
+	}
 	
 	private static void ifInstrucao() throws IOException 
 	{
