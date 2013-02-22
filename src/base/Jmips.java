@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Jmips
 {
-	private static final String dumpBin = "/home/felipe/git/flvsilva/projetoMIPS/src/base/exb.txt";
+	private static final String dumpBin = "exb.txt";
 
 	public static final String NOP = "00000000000000000000000000000000";
 
@@ -51,7 +51,7 @@ public class Jmips
 		String aux;
 		while ((aux = br.readLine()) != null)
 		{
-			instrucoes.add(aux);
+			instrucoes.add(aux);	
 		}
 		
 		FileReader fr = new FileReader(dumpBin);
@@ -70,8 +70,14 @@ public class Jmips
 			exInstrucao(ControladorInstrucoes.seletorInstrucao("EX"));
 			idInstrucao(ControladorInstrucoes.seletorInstrucao("ID"));
 			ifInstrucao();
-			imprimeRegistradores ();
-			imprimeMemoria(Integer.parseInt(argv[2]), Integer.parseInt(argv[3]));
+			if (argv[1] != null && argv[1].equals("-R"))
+			{
+				imprimeRegistradores ();
+			}
+			if (argv[2] != null && argv[3] != null)
+			{
+				imprimeMemoria(Integer.parseInt(argv[2]), Integer.parseInt(argv[3]));
+			}
 			System.out.println("\n\n------> Fim do ciclo: "+c);
 			System.in.read();
 		}
@@ -91,12 +97,12 @@ public class Jmips
 	
 	private static void imprimeRegistradores ()
 	{
-		System.out.println("*********************REGISTRADORES*****************************");
+		System.out.println("\n*********************REGISTRADORES*****************************");
 		for (int a = 0 ; a < 32 ; a++)
 		{
-			System.out.println(">> R["+a+"] = "+ registradores.get(a));
+			System.out.print(" -- R["+a+"] = "+ registradores.get(a));
 		}
-		System.out.println("***************************************************************");
+		System.out.println("\n***************************************************************");
 	}
 	
 	private static void ifInstrucao() throws IOException 
@@ -109,7 +115,6 @@ public class Jmips
 			pc++;
 		} else {
 			aux_instrucao = NOP;
-			System.out.println("Nenhuma nova instrução.");
 		}
 		System.out.println("IF: ->" + aux_instrucao);
 		if (ins1 == null || ins1.getEstagio().equals("FIM")) 
